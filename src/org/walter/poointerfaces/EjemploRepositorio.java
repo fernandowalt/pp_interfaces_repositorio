@@ -1,21 +1,20 @@
 package org.walter.poointerfaces;
 
 import org.walter.poointerfaces.modelo.Cliente;
-import org.walter.poointerfaces.repositorio.ClienteListRepositorio;
-import org.walter.poointerfaces.repositorio.CrudRepositorio;
+import org.walter.poointerfaces.repositorio.AbstractaListRepositorio;
+import org.walter.poointerfaces.repositorio.lista.ClienteListRepositorio;
 import org.walter.poointerfaces.repositorio.Direccion;
-import org.walter.poointerfaces.repositorio.PaginableRepositorio;
 
 import java.util.List;
 
 public class EjemploRepositorio {
     public static void main(String[] args) {
 
-        ClienteListRepositorio repo = new ClienteListRepositorio();
-        repo.insertarCliente(new Cliente("braulio", "Gomez"));
-        repo.insertarCliente(new Cliente("nicolas", "Lopez"));
-        repo.insertarCliente(new Cliente("fernando", "Santamaria"));
-        repo.insertarCliente(new Cliente("xisto", "Pinzon"));
+        AbstractaListRepositorio<Cliente> repo = new ClienteListRepositorio();
+        repo.insertar(new Cliente("braulio", "Gomez"));
+        repo.insertar(new Cliente("nicolas", "Lopez"));
+        repo.insertar(new Cliente("fernando", "Santamaria"));
+        repo.insertar(new Cliente("xisto", "Pinzon"));
 
 
         List<Cliente> clientes = repo.listar();
@@ -30,7 +29,7 @@ public class EjemploRepositorio {
 
         Cliente xistoActualizado = new Cliente("walter", "pinzon");
         xistoActualizado.setId(4);
-        repo.editarCliente(xistoActualizado);
+        repo.editar(xistoActualizado);
 
         System.out.println("\n================================\n");
 
@@ -38,7 +37,7 @@ public class EjemploRepositorio {
 
         System.out.println("\n====================================\n");
 
-        repo.eliminarCliente(4);
+        repo.eliminar(4);
 
         repo.listar().forEach(System.out::println);
 

@@ -5,17 +5,17 @@ import org.walter.poointerfaces.modelo.Cliente;
 import java.util.Iterator;
 import java.util.List;
 
-public interface CrudRepositorio {
+public interface CrudRepositorio<T> {
 
-    List<Cliente> listar();
+    List<T> listar();
 
-    Cliente porId(Integer id);
+    T porId(Integer id);
 
-    void insertarCliente(Cliente cliente);
+    void insertar(T cliente);
 
-    void editarCliente(Cliente cliente);
+    void editar(T cliente);
 
-    void eliminarCliente(Integer id);
+    void eliminar(Integer id);
 
 
 }

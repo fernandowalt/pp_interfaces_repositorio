@@ -4,6 +4,6 @@ import org.walter.poointerfaces.modelo.Cliente;
 
 import java.util.List;
 
-public interface OrdenableRepositorio {
-    List<Cliente> ordenar(String atributo, Direccion dir);
+public interface OrdenableRepositorio<T> {
+    List<T> ordenar(String atributo, Direccion dir);
 }
