@@ -1,11 +1,15 @@
 package org.walter.poointerfaces.repositorio;
+
 import org.walter.poointerfaces.modelo.Cliente;
 import org.walter.poointerfaces.modelo.EntidadGenerica;
+import org.walter.poointerfaces.repositorio.excepciones.EscrituraAccesoDatoException;
+import org.walter.poointerfaces.repositorio.excepciones.LecturaAccesoDatoException;
+import org.walter.poointerfaces.repositorio.excepciones.RegistroDuplicadoAccesoDatosException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractaListRepositorio <T extends EntidadGenerica> implements OrdenablePaginableCrudRepositorio<T> {
+public abstract class AbstractaListRepositorio<T extends EntidadGenerica> implements OrdenablePaginableCrudRepositorio<T> {
 
     protected final List<T> dataSource;
 
@@ -13,8 +17,13 @@ public abstract class AbstractaListRepositorio <T extends EntidadGenerica> imple
         this.dataSource = new ArrayList<>();
 
     }
+
     @Override
-    public T porId(Integer id) {
+    public T porId(Integer id) throws LecturaAccesoDatoException {
+
+        if (id == null || id <= 0) {
+            throw new LecturaAccesoDatoException("El id debe ser mayor a 0 y no ses nulo");
+        }
 
         T resultado = null;
 
@@ -23,6 +32,11 @@ public abstract class AbstractaListRepositorio <T extends EntidadGenerica> imple
                 resultado = cli;
                 break;
             }
+        }
+
+        if (resultado == null) {
+            throw new LecturaAccesoDatoException("No exito el registro con el id: " + id);
+
         }
         return resultado;
     }
@@ -43,14 +57,22 @@ public abstract class AbstractaListRepositorio <T extends EntidadGenerica> imple
     }
 
     @Override
-    public void insertar(T t) {
+    public void insertar(T t) throws EscrituraAccesoDatoException {
+        if (t == null) {
+            throw new EscrituraAccesoDatoException("Error al insertar un objeto null ");
+        }
+        if (this.dataSource.contains(t)) {
+            throw new RegistroDuplicadoAccesoDatosException("Error, el objeto con id: " + t.getId() + " ya existe en el repositorio");
+        }
+
         dataSource.add(t);
     }
 
     @Override
-    public void eliminar(Integer id) {
+    public void eliminar(Integer id) throws LecturaAccesoDatoException {
         dataSource.remove(this.porId(id));
     }
+
     @Override
     public List<T> listar(int desde, int hasta) {
         return dataSource.subList(desde, hasta);

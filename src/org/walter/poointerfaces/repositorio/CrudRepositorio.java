@@ -1,21 +1,19 @@
 package org.walter.poointerfaces.repositorio;
+import org.walter.poointerfaces.repositorio.excepciones.AccesoDatosException;
 
-import org.walter.poointerfaces.modelo.Cliente;
-
-import java.util.Iterator;
 import java.util.List;
 
-public interface CrudRepositorio<T> {
+public interface CrudRepositorio<T>  {
 
     List<T> listar();
 
-    T porId(Integer id);
+    T porId(Integer id) throws AccesoDatosException;
 
-    void insertar(T cliente);
+    void insertar(T t) throws AccesoDatosException;
 
-    void editar(T cliente);
+    void editar(T t) throws AccesoDatosException;
 
-    void eliminar(Integer id);
+    void eliminar(Integer id) throws AccesoDatosException;
 
 
 }

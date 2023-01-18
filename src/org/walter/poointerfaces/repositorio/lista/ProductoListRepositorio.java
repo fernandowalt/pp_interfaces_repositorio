@@ -2,6 +2,7 @@ package org.walter.poointerfaces.repositorio.lista;
 import org.walter.poointerfaces.modelo.Producto;
 import org.walter.poointerfaces.repositorio.AbstractaListRepositorio;
 import org.walter.poointerfaces.repositorio.Direccion;
+import org.walter.poointerfaces.repositorio.excepciones.LecturaAccesoDatoException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ public class ProductoListRepositorio extends AbstractaListRepositorio<Producto> 
 
 
     @Override
-    public void editar(Producto producto) {
+    public void editar(Producto producto) throws LecturaAccesoDatoException {
         Producto p = porId(producto.getId());
 
         p.setDescripcion(producto.getDescripcion());

@@ -3,6 +3,9 @@ package org.walter.poointerfaces;
 import org.walter.poointerfaces.modelo.Producto;
 import org.walter.poointerfaces.repositorio.AbstractaListRepositorio;
 import org.walter.poointerfaces.repositorio.Direccion;
+import org.walter.poointerfaces.repositorio.excepciones.AccesoDatosException;
+import org.walter.poointerfaces.repositorio.excepciones.EscrituraAccesoDatoException;
+import org.walter.poointerfaces.repositorio.excepciones.LecturaAccesoDatoException;
 import org.walter.poointerfaces.repositorio.lista.ProductoListRepositorio;
 
 import java.util.List;
@@ -10,46 +13,62 @@ import java.util.List;
 public class EjemploRepositorioProducto {
     public static void main(String[] args) {
 
-        AbstractaListRepositorio<Producto> repo = new ProductoListRepositorio();
-        repo.insertar(new Producto("Mesa", 2.58));
-        repo.insertar(new Producto("Silla", 5.48));
-        repo.insertar(new Producto("Casco", 6.3));
-        repo.insertar(new Producto("Armario", 7.3));
+        try {
+            AbstractaListRepositorio<Producto> repo = new ProductoListRepositorio();
+            repo.insertar(new Producto("Mesa", 2.58));
+            repo.insertar(new Producto("Silla", 5.48));
+            repo.insertar(new Producto("Casco", 6.3));
+            repo.insertar(new Producto("Armario", 7.3));
 
 
-        List<Producto> Productos = repo.listar();
-        Productos.forEach(System.out::println);
-        System.out.print("\n");
 
-        List<Producto> paginable = repo.listar(0, 2);
-        paginable.forEach(System.out::println);
+            List<Producto> Productos = repo.listar();
+            Productos.forEach(System.out::println);
+            System.out.print("\n");
 
-        System.out.print("\n");
+            List<Producto> paginable = repo.listar(0, 2);
+            paginable.forEach(System.out::println);
 
-        Producto actualizado = new Producto("Lampara escritorio", 10.5);
-        actualizado.setId(4);
-        repo.editar(actualizado);
+            System.out.print("\n");
 
-        System.out.println("\n================================\n");
+            Producto actualizado = new Producto("Lampara escritorio", 10.5);
+            actualizado.setId(4);
+            repo.editar(actualizado);
 
-        repo.listar().forEach(System.out::println);
+            System.out.println("\n================================\n");
 
-        System.out.println("\n====================================\n");
+            repo.listar().forEach(System.out::println);
 
-        repo.eliminar(2);
+            System.out.println("\n====================================\n");
 
-        repo.listar().forEach(System.out::println);
+            repo.eliminar(2);
 
-        List<Producto> ascendente = repo.ordenar("precio", Direccion.DES);
-        System.out.println("\n=======================================\n");
+            repo.listar().forEach(System.out::println);
 
-        ascendente.forEach(System.out::println);
+            List<Producto> ascendente = repo.ordenar("precio", Direccion.DES);
+            System.out.println("\n=======================================\n");
 
-        System.out.println("\n=======================================\n");
+            ascendente.forEach(System.out::println);
 
-        System.out.println(repo.total());
+            System.out.println("\n=======================================\n");
+
+            System.out.println(repo.total());
 
 
+        } catch (LecturaAccesoDatoException lae) {
+            System.out.println(lae.getMessage());
+            lae.printStackTrace();
+        } catch (EscrituraAccesoDatoException eae) {
+            System.out.println(eae.getMessage());
+            eae.printStackTrace();
+        } catch (AccesoDatosException ade) {
+            System.out.println(ade.getMessage());
+            ade.printStackTrace();
+        }
     }
 
 }
+
+
+
+
